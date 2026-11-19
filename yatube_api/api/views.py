@@ -1,4 +1,4 @@
-from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
+from rest_framework.viewsets import ModelViewSet
 from .serializers import (
     GroupSerializer,
     PostSerializer,
@@ -6,9 +6,8 @@ from .serializers import (
     FollowSerializer,
 )
 from posts.models import Post, Group, Comment, Follow
-from rest_framework.exceptions import PermissionDenied
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from rest_framework import generics, mixins, viewsets, filters
+from rest_framework import mixins, viewsets, filters
 from .permissions import OwnerOrReadOnly
 
 

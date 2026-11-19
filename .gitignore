@@ -7,3 +7,5 @@ __pycache__/
 
 # SQLite database
 yatube_api/db.sqlite3
+
+.flake8
