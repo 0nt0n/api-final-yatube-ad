@@ -9,6 +9,7 @@ from posts.models import Post, Group, Comment, Follow
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import generics, mixins, viewsets, filters
+from .permissions import OwnerOrReadOnly
 
 
 class GroupViewSet(
@@ -22,20 +23,10 @@ class GroupViewSet(
 class PostViewSet(ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = (OwnerOrReadOnly, )
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
-
-    def perform_update(self, serializer):
-        if serializer.instance.author != self.request.user:
-            raise PermissionDenied("Изменение чужого контента запрещено!")
-        super().perform_update(serializer)
-
-    def perform_destroy(self, instance):
-        if instance.author != self.request.user:
-            raise PermissionDenied("Удаление чужого контента запрещено!")
-        super().perform_destroy(instance)
 
 
 class CommentViewSet(ModelViewSet):
